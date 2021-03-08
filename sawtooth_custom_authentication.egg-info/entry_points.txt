@@ -1,0 +1,4 @@
+[console_scripts]
+accumulator-manager = sawtooth_custom_authentication.client_cli.accumulator_manager_cli:main_wrapper
+custom-authentication-tp-python = sawtooth_custom_authentication.processor.main:main
+
