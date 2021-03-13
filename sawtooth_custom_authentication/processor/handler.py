@@ -39,9 +39,9 @@ AUTHENTICATION_ADDRESS_PREFIX = hashlib.sha512(
     FAMILY_NAME.encode('utf-8')).hexdigest()[0:6]
 
 
-def make_accumulator_address(service):                       #service ist dienst, der später authentication nutzt bsp 'mercedes'
+def make_accumulator_address(service):                       
     return AUTHENTICATION_ADDRESS_PREFIX + hashlib.sha512(
-        service.encode('utf-8')).hexdigest()[-64:]             # das -64 greift auf die hinteren 64 zahlen vom array drauf
+        service.encode('utf-8')).hexdigest()[-64:]            
 
 
 class AuthenticationTransactionHandler(TransactionHandler):
