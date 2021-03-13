@@ -226,17 +226,17 @@ def add_user_client_add_parser(subparsers, parent_parser):
 
 
 def do_user_client_add(args):
-    username, service= args.name, args.service  #name des userclients
-    user_client = _get_user_cient(username) #neuer user client wird erstellt mit zugehörigem namen prime wird erstellt
-    prime = user_client.get_prime()         #userclient prime wird ausgelesen
-    acc_value, acc_value_updated, elements, usernames = get_tailsfile_data(service)   #aktuellen status auslesn
+    username, service= args.name, args.service
+    user_client = _get_user_cient(username)
+    prime = user_client.get_prime()
+    acc_value, acc_value_updated, elements, usernames = get_tailsfile_data(service)
     if not elements:
         elements_int = []
     else:
         elements_int = list(map(int, elements))
-    rsa_acc = RSA2048_Accumulator(elements_int)                         #RSA holen
-    acc_value_updated = rsa_acc.add(prime)                          #Neuen acc value berechnen
-    elements.append(prime)                                          #neue prime zu elements hinzufügen
+    rsa_acc = RSA2048_Accumulator(elements_int)
+    acc_value_updated = rsa_acc.add(prime)
+    elements.append(prime)
     usernames.append(username)
     write_tailsfile_data(service, acc_value, acc_value_updated, elements, usernames)
     client = _get_client(args)

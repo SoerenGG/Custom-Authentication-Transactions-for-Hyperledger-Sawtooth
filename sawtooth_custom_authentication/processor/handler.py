@@ -62,14 +62,11 @@ class AuthenticationTransactionHandler(TransactionHandler):
 
     def apply(self, transaction, context):                              # Entry point
         start = time.clock()
-        verb, service, value, witness = _unpack_transaction(transaction)     # Transaction auslesen
-        # value ist entweder accumulator oder prime zum authenticaten
+        verb, service, value, witness = _unpack_transaction(transaction)
 
-        state = _get_state_data(service, context)                       # Aktuellen hinterlegten Wert an
-                                                                        # service-Adresse kriegen
-        updated_state = _do_begin_processing(verb, service, value, witness, state)        # Holt neuen Wert der in Ledger
-                                                                      # geschrieben werden soll
-                                                                       # Entweder acc_value oder acc_updated
+        state = _get_state_data(service, context)
+
+        updated_state = _do_begin_processing(verb, service, value, witness, state)
 
 
         if verb == 'authenticate':
@@ -81,11 +78,11 @@ class AuthenticationTransactionHandler(TransactionHandler):
             print("time for update/initialize: ", elapsed)
 
 def _unpack_transaction(transaction):
-    verb, service, value, witness = _decode_transaction(transaction)     #value = accumulator value, new or to update
+    verb, service, value, witness = _decode_transaction(transaction)
     _validate_verb(verb)
     _validate_service(service)
-    _validate_accumulator_value(value)              #acc value kann auch prime enthalten
-    #validate witness
+    _validate_accumulator_value(value)
+    #validate witness still to be implemented if required
     return verb, service, value, witness
 
 
@@ -132,37 +129,37 @@ def _validate_service(service):
 
 def _validate_accumulator_value(value_str):
     value = int(value_str)
-    if not isinstance(value, int):              #Hier eventuell noch bytegröße angeben
+    if not isinstance(value, int):
         raise InvalidTransaction(
             'Value must be an integer')
 
 
 def _get_state_data(service, context):
-    address = make_accumulator_address(service)         # Speicheradresse für bestimmen service bsp autohaus
-                                                        # anlegen
-    state_entries = context.get_state([address])        # Ledgerinhalt an Speicheradresse herauskopieren
+    address = make_accumulator_address(service)
+
+    state_entries = context.get_state([address])
 
     try:
-        return cbor.loads(state_entries[0].data)        # "Decoden" der zuvor cbor "codierten" werte
+        return cbor.loads(state_entries[0].data)
     except IndexError:
-        return {}                                       # Wenn entry im Ledger leer ist wird nichts zurück
-    except Exception as e:                              # gegeben
+        return {}
+    except Exception as e:
         raise InternalError('Failed to load state data') from e
 
 
 def _set_state_data(service, state, context):
-    address = make_accumulator_address(service)         # Neue adresse erstellen mit servicenamen
-    encoded_accumulator = cbor.dumps(state)                         # Kodieren des zu speichernden accumulator values
-                                                        # state = accumulator value
-    addresses = context.set_state({address: encoded_accumulator})   # Inhalt von encoded an adresse schreiben
+    address = make_accumulator_address(service)
+    encoded_accumulator = cbor.dumps(state)
+
+    addresses = context.set_state({address: encoded_accumulator})
 
     if not addresses:
         raise InternalError('State error')
 
 
 def _do_begin_processing(verb, service, prime, witness, state):
-    verbs = {                               # key value object, um danach funktionen je nach übergebenem
-        'initialize': _do_initialize,       # Verb aufzurufen
+    verbs = {
+        'initialize': _do_initialize,
         'update': _do_update,
         'authenticate': _do_authenticate
     }
@@ -171,8 +168,8 @@ def _do_begin_processing(verb, service, prime, witness, state):
         if verb == 'authenticate':
             return verbs[verb](service, prime, witness, state)
         else:
-            return verbs[verb](service, prime, state)       # hier wird funktion je nach ver (initialize oder
-    except KeyError:                                        # update)
+            return verbs[verb](service, prime, state)
+    except KeyError:
         # This would be a programming error.
         raise InternalError('Unhandled verb: {}'.format(verb)) from KeyError
 
