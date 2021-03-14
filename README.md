@@ -17,7 +17,7 @@ json files are created during this process:
 "user1.json" would be the file for the "user1" 
 
 
-Markup: 1. install by changing in this directory and run: "pyhton3 setup.py install"
+1. install by changing in this directory and run: "pyhton3 setup.py install"
 2. open new terminal and connect to validator: "custom-authentication-tp-python --connect tcp://validator:4004"
 3. open new terminal and create keys: "sawtooth keygen" and stay here
     * accumulator-manager-client cmd is = "accumulator-manager"
