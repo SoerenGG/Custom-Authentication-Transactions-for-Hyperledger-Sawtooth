@@ -21,7 +21,7 @@ json files are created during this process:
 2. open new terminal and connect to validator: "custom-authentication-tp-python --connect tcp://validator:4004"
 3. open new terminal and create keys: "sawtooth keygen" and stay here
     * accumulator-manager-client cmd is = "accumulator-manager"
-        * "accumulator-manager initialize <servicename>"
+        * "accumulator-manager initialize \<servicename\>"
     * user-client gets called through accmulator-manager-client
         * "accumulator-manager user-client-add <username> <servicename>"
         * "accumulator-manager user-client-remove <username> <servicename>"
