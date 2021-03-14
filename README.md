@@ -23,6 +23,12 @@ json files are created during this process:
     * accumulator-manager-client cmd is = "accumulator-manager"
         * "accumulator-manager initialize \<servicename\>"
     * user-client gets called through accmulator-manager-client
-        * "accumulator-manager user-client-add <username> <servicename>"
-        * "accumulator-manager user-client-remove <username> <servicename>"
-        * "accumulator-manager user-client-authenticate <username> <servicename>"
+        * "accumulator-manager user-client-add \<username\> \<servicename\>"
+        * "accumulator-manager user-client-remove \<username\> \<servicename\>"
+        * "accumulator-manager user-client-authenticate \<username\> \<servicename\>"
+4. initialize new Accumulator with a servicename, the accumulator value has to be 9 (eg "mercedes"):
+  1. "accumulator-manager initialize mercedes 9"
+5. add a user to the accumulator by specifying the service the user wants to be added to and give a username (eg "user1")
+  1. "acaccumulator-manager user-client-add user1 mercedes"
+6. verify membership of a user for a service
+  1. ""acaccumulator-manager user-client-authenticate user1 mercedes"
