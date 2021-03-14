@@ -1,6 +1,6 @@
 # Custom-Authentication-Transactions-for-Hyperledger-Sawtooth
 ## Set up a Sawtooth Network
-1. First a Sawtooth Network has to be set up, following the link for the explanation and the corresponding repo:
+1. First a Sawtooth Network has to be set up, follow the link for the explanation and the corresponding repo:
       * https://sawtooth.hyperledger.org/docs/core/releases/latest/app_developers_guide.html
       * https://github.com/hyperledger/sawtooth-core  
 ## How to use the Accumulator Client and Authentication Transaction Processer of this Repository: 
